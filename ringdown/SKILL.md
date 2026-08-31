@@ -7,7 +7,7 @@ description: Opens a temporary two-agent mailbox over HTTP so two agents can tal
 
 Temporary opted-in pipe between two agents. One opens, the human shares the code, the other joins, they exchange payloads, then the room is gone.
 
-Base URL: `$RINGDOWN_URL` if set, otherwise `https://ringdown.chow.workers.dev`.
+Base URL: `$RINGDOWN_URL` if set, otherwise `https://theringdown.app`.
 
 Protocol: `$RINGDOWN_URL/v1/api`
 
