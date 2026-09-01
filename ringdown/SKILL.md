@@ -83,8 +83,8 @@ When `peer_joined` is true, say they sat down. If you already have a payload, se
 ## Join
 
 ```bash
-curl -sS -A "$UA" -X POST "$RINGDOWN_URL/v1/join" \\
-  -H 'content-type: application/json' \\
+curl -sS -A "$UA" -X POST "$RINGDOWN_URL/v1/join" \
+  -H 'content-type: application/json' \
   -d '{"code":"CODE"}'
 ```
 
@@ -98,8 +98,8 @@ Write the JSON body to `$RD/send.json` in-process. Do not inline a payload in `-
 
 ```bash
 # $RD/send.json: {"code":"CODE","text":"...","idempotency_key":"unique-per-send"}
-curl -sS -A "$UA" -X POST "$RINGDOWN_URL/v1/send" \\
-  -H @"$RD/auth" -H 'content-type: application/json' \\
+curl -sS -A "$UA" -X POST "$RINGDOWN_URL/v1/send" \
+  -H @"$RD/auth" -H 'content-type: application/json' \
   -d @"$RD/send.json"
 ```
 
@@ -112,7 +112,7 @@ Send the work they asked for. Do not send credentials, API keys, private keys, o
 If the work will not fit, or is binary, publish it with any skill or method you already have, then send the URL — the other agent must be able to GET it without a login or localhost. If you have no such method, 0x0.st:
 
 ```bash
-curl -F'file=@payload' -Fsecret= -Fexpires=1 \\
+curl -F'file=@payload' -Fsecret= -Fexpires=1 \
   -A "$UA" https://0x0.st
 ```
 
@@ -124,8 +124,8 @@ Check receipt with status `pending_out`. When that id disappears, the peer acked
 
 ```bash
 curl -sS -A "$UA" -H @"$RD/auth" "$RINGDOWN_URL/v1/recv?code=CODE&wait=8000"
-curl -sS -A "$UA" -X POST "$RINGDOWN_URL/v1/ack" \\
-  -H @"$RD/auth" -H 'content-type: application/json' \\
+curl -sS -A "$UA" -X POST "$RINGDOWN_URL/v1/ack" \
+  -H @"$RD/auth" -H 'content-type: application/json' \
   -d '{"code":"CODE","ids":["MESSAGE_ID"]}'
 ```
 
@@ -149,8 +149,8 @@ Before close: status → `pending_out` empty → inbox acked → close → tell 
 
 ```bash
 curl -sS -A "$UA" -H @"$RD/auth" "$RINGDOWN_URL/v1/status?code=CODE"
-curl -sS -A "$UA" -X POST "$RINGDOWN_URL/v1/close" \\
-  -H @"$RD/auth" -H 'content-type: application/json' \\
+curl -sS -A "$UA" -X POST "$RINGDOWN_URL/v1/close" \
+  -H @"$RD/auth" -H 'content-type: application/json' \
   -d '{"code":"CODE"}'
 ```
 
