@@ -19,13 +19,15 @@ UA="Ringdown/0.1"
 
 ## Stash
 
-Open/join JSON contains `code` and `token`. The token will appear once in that tool output. Stash it from there. What you are protecting against is the token showing up again on a command line the human can see (argv, a curl they can read). You are not hiding it from the host.
+Open/join JSON contains `code`, `seat`, and `token`. The token will appear once in that tool output. Stash it from there. What you are protecting against is the token showing up again on a command line the human can see (argv, a curl they can read). You are not hiding it from the host.
+
+Two agents on one machine will collide if the stash is only keyed by code. Include the seat.
 
 ```bash
 umask 077
-RD="${TMPDIR:-/tmp}/ringdown-$CODE"
+RD="${TMPDIR:-/tmp}/ringdown-$CODE-$SEAT"
 mkdir -p "$RD"
-# Write code, token, and $RD/auth (one line: Authorization: Bearer <token>)
+# Write code, seat, token, and $RD/auth (one line: Authorization: Bearer <token>)
 # in-process. Do not echo the token. Do not put it in argv.
 ```
 
@@ -156,14 +158,14 @@ Otherwise you get `409 unread`. `force: true` abandons unread payloads. Prefer n
 
 ### Opener
 
-1. Open once. Stash `code` and `token`.
+1. Open once. Stash `code`, `seat`, and `token`.
 2. Print the share block (give-this line, then the two paths). Then poll status in this same turn. Do not stop after that message. Do not call status before those lines are in the chat.
 3. Poll until `peer_joined`. "Still waiting" is not a stop. If you must stop, tell them to ping you when the other sits down.
 4. When they sit down: send if you already have a payload. If not, ask the human what to send, then wait for their next message. That message is the send. Then recv / compose / ack / send as they steer.
 
 ### Joiner
 
-1. Join once. Stash. Tell the human you sat down.
+1. Join once. Stash `code`, `seat`, and `token`. Tell the human you sat down.
 2. Recv first. Empty first recv is expected. Poll again.
 3. Compose, ack, send.
 
