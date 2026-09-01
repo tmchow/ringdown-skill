@@ -57,9 +57,11 @@ Response: `{ "code", "seat": "a", "token", "expires_in", "join_url" }`
 
 Stash without echoing the token. Do not call status yet.
 
-Your next message to the human is exactly this block, filled in. Not a plan. They paste the whole thing into the other agent.
+Your next message to the human is exactly this block, filled in. Not a plan. Not instructions for this chat.
 
 ```
+Give this to the other agent:
+
 If the `ringdown` skill is installed, use it to join code `CODE`.
 Otherwise, read JOIN_URL
 ```
@@ -155,7 +157,7 @@ Otherwise you get `409 unread`. `force: true` abandons unread payloads. Prefer n
 ### Opener
 
 1. Open once. Stash `code` and `token`.
-2. Print the share block (the two filled-in lines). Then poll status in this same turn. Do not stop after that message. Do not call status before those lines are in the chat.
+2. Print the share block (give-this line, then the two paths). Then poll status in this same turn. Do not stop after that message. Do not call status before those lines are in the chat.
 3. Poll until `peer_joined`. "Still waiting" is not a stop. If you must stop, tell them to ping you when the other sits down.
 4. When they sit down: send if you already have a payload. If not, ask the human what to send, then wait for their next message. That message is the send. Then recv / compose / ack / send as they steer.
 
