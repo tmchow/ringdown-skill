@@ -1,0 +1,4 @@
+{
+  "name": "ringdown-skill",
+  "install": "node --version && jq --version && curl --version >/dev/null && npx -y skills@latest --version"
+}
